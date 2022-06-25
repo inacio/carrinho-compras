@@ -23,25 +23,17 @@ interface CartItemsAmount {
 
 const Home = (): JSX.Element => {
   const [products, setProducts] = useState<ProductFormatted[]>([]);
-  const [cartItemsAmount, setCartItemsAmount] = useState<CartItemsAmount>([]);
   const { addProduct, cart } = useCart();
+
+  const cartItemsAmount = cart.reduce((sumAmount, product) => {
+    const newSumAmount = {...sumAmount};
+    newSumAmount[product.id] = product.amount;
+    return newSumAmount;
+  }, {} as CartItemsAmount)
 
   function handleAddProduct(id: number) {
     addProduct(id)
   }
-
-  useEffect(() => {
-    
-      let newCartItemsAmount = cart.reduce((sumAmount, product) => {
- 
-        sumAmount[product.id] = product?.amount > 0 ? product?.amount : 1;
-        return sumAmount;
-      }, {} as CartItemsAmount)
-      
-      setCartItemsAmount(newCartItemsAmount)     
-
-    
-  },[cart])
 
   useEffect(() => {
     async function loadProducts() {
