@@ -29,4 +29,8 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+  iframe{
+    display: none;
+  }
 `;
